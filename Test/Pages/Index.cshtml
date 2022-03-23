@@ -1,0 +1,69 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-left">
+    <h1 class="display-4">Добавить трубу</h1>
+    <form method="post">
+        <p>
+            <label>Номер</label>
+            <input type="number" name="Number"/>
+        </p>
+        <p>
+            <label>
+                Пакет
+            </label>
+            <select name="PackageId">
+                <option value="Null">Без пакета</option>
+                @foreach(var package in Model.Packages)
+                    {
+                      <option value=@package.PackageId>@package.PackageId + @package.Created</option>
+                    }
+            </select>
+        </p>
+        <p>
+            <label>Качество</label>
+            <select name="Quality">
+                <option>Годная</option>
+                <option>Брак</option>
+            </select>
+        </p>
+        <p>
+            <label>Марка стали</label>
+            <select name="SteelGrade">
+                <option>09Г2С</option>
+                <option>13ХФА</option>
+                <option>20</option>
+                <option>12Х1МФ</option>
+                <option>15ГС</option>
+                <option>17Г1С</option>
+                <option>20ПВ</option>
+                <option>30ХГСА</option>
+            </select>
+        </p>
+        <p>
+            <label>Вес</label>
+            <input type="number" name="Weight"/>
+        </p>
+        <p>
+            <label>Внутренний диаметр</label>
+            <input type="number" name="Dy"/>
+        </p>
+        <p>
+            <label>Внешний диаметр</label>
+            <input type="number" name="Dh"/>
+        </p>
+        <p>
+            <label>Толщина</label>
+            <input type="number" name="S"/>
+        </p>
+        <p>
+            <input type="submit" value="Добавить" />
+        </p>
+    </form>
+    <form action="/table" target="_blank">
+   <button>Таблицы</button>
+  </form>
+</div>

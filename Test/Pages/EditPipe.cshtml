@@ -1,0 +1,77 @@
+﻿@page
+@model EditPipeModel
+
+<div class="text-left">
+    <h1 class="display-4">Изменить трубу</h1>
+    <form method="post">
+        <p>
+            <label>Номер</label>
+            <input type="number" name="Number" value=@Model.pipe.Number >
+        </p>
+        <p>
+            <label>
+                Пакет
+            </label>
+            <select name="PackageId">
+                <option value="Null">@Model.pipe.PackageId</option>
+                @foreach(var package in Model.Packages)
+                    {
+                      <option value=@package.PackageId>@package.PackageId + @package.Created</option>
+                    }
+            </select>
+        </p>
+        <p>
+            <label>Качество</label>
+            @{
+                if (Model.pipe.Quality == "Брак")
+                {
+                <select name="Quality">
+                    <option>Годная</option>
+                    <option selected>Брак</option>
+                </select>
+                }
+                else
+                {
+                <select name="Quality">
+                    <option selected>Годная</option>
+                    <option>Брак</option>
+                </select>
+                }
+            }
+            
+        </p>
+        <p>
+            <label>Марка стали</label>
+            <select name="SteelGrade"  value=@Model.pipe.SteelGrade>
+                <option selected>@Model.pipe.SteelGrade</option>
+                <option>09Г2С</option>
+                <option>13ХФА</option>
+                <option>20</option>
+                <option>12Х1МФ</option>
+                <option>15ГС</option>
+                <option>17Г1С</option>
+                <option>20ПВ</option>
+                <option>30ХГСА</option>
+            </select>
+        </p>
+        <p>
+            <label>Вес</label>
+            <input type="number" name="Weight" value=@Model.pipe.Weight>
+        </p>
+        <p>
+            <label>Внутренний диаметр</label>
+            <input type="number" name="Dy" value=@Model.pipe.Dy>
+        </p>
+        <p>
+            <label>Внешний диаметр</label>
+            <input type="number" name="Dh"value=@Model.pipe.Dh>
+        </p>
+        <p>
+            <label>Толщина</label>
+            <input type="number" name="S" value=@Model.pipe.S>
+        </p>
+        <p>
+            <input type="submit" value="Изменить" />
+        </p>
+    </form>
+</div>

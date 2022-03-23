@@ -1,0 +1,105 @@
+﻿@page
+@using Test.Data
+@model TableModel
+
+<link rel="stylesheet" href="Styles.css">
+
+<div class="row">
+    <h1 class="display-4">Трубы</h1>
+    <form method="post">
+        <p>
+            <label>Номер</label>
+            <input type="number" name="Number"/>
+        </p>
+        <p>
+            <label>Дата</label>
+            <input type="datetime-local" id="datetime" name="datetime">
+        </p>
+        <p>
+            <input type="submit" value="Добавить пакет" />
+        </p>
+        
+    </form>
+    <table class="table">
+        <thead class="thead-inverse">
+        </thead>
+        <tbody>
+            <tr>
+                <th>№ пакета</th>
+                <th>Номер</th>
+                <th>Качество</th>
+                <th>Марка стали</th>
+                <th>Dy</th>
+                <th>Dh</th>
+                <th>S</th>
+            </tr>
+                @foreach (Pipe pipe in Model.pipesNullPackage)
+                {
+                <tr id=@pipe.Id name=line @(pipe.Quality == "Брак" ? "style=color:red" : "")>
+                    <td name=PackageId>Без пакета</td>
+                    <td name=PipeNumber>@pipe.Number</td>
+                    <td name=PipeQuality>@pipe.Quality</td>
+                    <td name=PipeSteelGrade>@pipe.SteelGrade</td>
+                    <td name=PipeDy>@pipe.Dy</td>
+                    <td name=PipeDh>@pipe.Dh</td>
+                    <td name=PipeS>@pipe.S</td>
+                    <td>
+                    <form method="post" asp-page-handler="DeletePipe">
+                        <input type="hidden" name=pipeId value=@pipe.Id>
+                        <input type="submit" value="Удалить"/>
+                    </form>
+                    </td>
+                    <td>
+                        <form method="post" asp-page-handler="EditPipe">
+                        <input type="hidden" name=pipeId value=@pipe.Id>
+                        <input type="submit" value="Изменить"/>
+                    </form>
+                    </td>
+                </tr>
+                }
+            @foreach (Package Package in Model.Packages)
+            {
+                var pipes = Model.Pipes.Where(c => c.PackageId == @Package.PackageId);
+                if(pipes.Count() == 0)
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                    @Package.Number @Package.Created
+                    </td>
+                    <td>
+                        <form method="post" asp-page-handler="DeletePackage">
+                        <input type="hidden" name=packageId value=@Package.PackageId>
+                        <input type="submit" value="Удалить"/>
+                    </form> 
+                    </td>
+                </tr>
+                @foreach (Pipe pipe in pipes)
+                {
+                <tr name=@pipe.Id @(pipe.Quality == "Брак" ? "style=color:red" : "")>
+                    <td name=PackageId>@Package.Number: @Package.Created </td>
+                    <td name=PipeNumber>@pipe.Number</td>
+                    <td name=PipeQuality>@pipe.Quality</td>
+                    <td name=PipeSteelGrade>@pipe.SteelGrade</td>
+                    <td name=PipeDy>@pipe.Dy</td>
+                    <td name=PipeDh>@pipe.Dh</td>
+                    <td name=PipeS>@pipe.S</td>
+                    <td>
+                    <form method="post" asp-page-handler="DeletePipe">
+                        <input type="hidden" name=pipeId value=@pipe.Id>
+                        <input type="submit" value="Удалить"/>
+                    </form> 
+                    </td>
+                    <td>
+                        <form method="post" asp-page-handler="EditPipe">
+                        <input type="hidden" name=pipeId value=@pipe.Id>
+                        <input type="submit" value="Изменить"/>
+                    </form>
+                    </td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
